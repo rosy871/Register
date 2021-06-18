@@ -1,62 +1,71 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Register
 {
     class Program
     {
+        static EmpPayroll ep = new EmpPayroll();
+        static ConsoleIO ci = new ConsoleIO();
+
         static void Main(string[] args)
         {
+            chooseMenu();
+        }
 
-            List<PersonalRegister> regs = new List<PersonalRegister>();
-            
-            
-            int ch=1;
-            do {
+        private static void chooseMenu()
+        {
+            do
+            {
+                menuOption();
 
-                if (ch == 1)
+                switch (ci.readl())
                 {
-               
-                    Console.WriteLine("Enter name: ");
-                    string name = Console.ReadLine();
-                    Console.WriteLine("\nEnter salary: ");
-                    int salary = Convert.ToInt32(Console.ReadLine());
-                    PersonalRegister reg = new PersonalRegister();
+                    case "1":
+                        addEmployeeInfo();
+                        break;
 
-                    reg.setNamn(name);
-                    reg.setLon(salary);
+                    case "2":
+                        ep.showEmployee();
+                        break;
 
+                    case "3":
+                        Environment.Exit(0);
+                        break;
 
-
-                    regs.Add(reg);
-
+                    default:
+                        ci.writel("incorrect input, chose again...");
+                        break;
                 }
-                else if(ch == 2) {
+            } while (true);
 
-                 
-                    foreach (var person in regs)
-                        Console.WriteLine(person.getNamn() + "\t " + person.getLon());
+        }
 
-
-                }
-                              
-                Console.WriteLine("\nPress 1 to Enter Personal info:");
-                Console.WriteLine("Press 2 to list Personal info:");
-                Console.WriteLine("Press 3 to Exit Personal info:");
-                ch = Convert.ToInt32(Console.ReadLine());
-            } while (ch < 3);
-
-                
-            
-
-            
-
-           
-
-
-           
+        private static void menuOption()
+        {
+            ci.writel("\n1. Add Employee Information");
+            ci.writel("2. List Employee Information");
+            ci.writel("3. Exit");
 
 
         }
+
+        private static void addEmployeeInfo()
+        {
+
+            do
+            {
+                ci.writel("Enter 'Q' or'q' to 'Quit' ");
+                string name = Util.AskForString("Name:     ");
+                if (name == "Q" ||name=="q" )
+                    break;
+                int salary = Util.AskForInt("Salary:   ");
+
+                ep.AddEmployee(name, salary);
+            } while (true);
+
+        }
+
+
+
     }
 }
